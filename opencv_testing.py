@@ -1,12 +1,13 @@
 
 
 # Standard imports
+import math
 import cv2
 import numpy as np;
 from matplotlib import pyplot as plt
 
 # Read image
-im = cv2.imread("474.png", cv2.IMREAD_GRAYSCALE)
+image = cv2.imread("474.png", cv2.IMREAD_GRAYSCALE)
 
 """
 cv2.imshow("im", im)
@@ -16,7 +17,7 @@ cv2.destroyAllWindows()
 blobStorageArray = []
 
 
-def bigBlobExtractor(im):
+def bigBlobExtractor(image):
     # Blob Detector parameters
     # Setup SimpleBlobDetector parameters.
     frameBlobs = []
@@ -42,7 +43,7 @@ def bigBlobExtractor(im):
     detector = cv2.SimpleBlobDetector_create(params)   
     
     # Detect blobs.
-    keypoints = detector.detect(im)    
+    keypoints = detector.detect(image)    
     
     for j in range(len(keypoints)):
         print (j)
@@ -55,8 +56,8 @@ def bigBlobExtractor(im):
         if lowerx <0:
             lowerx=0
             
-        if upperx > len(im[0]):
-            upperx = len(im[0])
+        if upperx > len(image[0]):
+            upperx = len(image[0])
                   
         lowery = y-size
         uppery = y+size
@@ -64,17 +65,17 @@ def bigBlobExtractor(im):
         if lowery <0:
             lowery=0
             
-        if uppery > len(im):
-            uppery = len(im)
+        if uppery > len(image):
+            uppery = len(image)
             
-        crop_img = im[lowerx:upperx, lowery:uppery]
+        crop_img = image[lowerx:upperx, lowery:uppery]
         frameBlobs.append (crop_img)
         plt.imshow(frameBlobs[j])
         plt.show()
        
     return frameBlobs
 
-blobs = bigBlobExtractor(im)
+blobs = bigBlobExtractor(image)
 vis=blobs[0]
 blobStorageArray.append(blobs[0].tolist())
 
@@ -132,7 +133,27 @@ def rotate_image(image, angle):
     rotated_image = cv2.warpAffine(image, rotation_mat, (bound_w, bound_h))
     return rotated_image
 
-image=rotate_image(vis,200)
+
+def rotationAngle (image):
+    height, width = image.shape
+    flag = 0;
+    for i in range(0,height-1):
+        for j in range(0,width-1):
+            if image[i,j] > 0:
+                topPixel =[j,i]  #x,y tradition
+                flag=1
+                break
+        if flag==1:
+            break
+    y_diff = round(height/2) - topPixel[0]
+    x_diff = round(width/2) - topPixel[1]
+    tanofdiff = math.tan(y_diff / x_diff)
+    atan = math.atan(tanofdiff)
+    angle=math.degrees(atan)
+    return angle
+    
+
+image=rotate_image(vis,rotationAngle(image))
 image = removePadding(image)
 
 cv2.imshow("im", image)
