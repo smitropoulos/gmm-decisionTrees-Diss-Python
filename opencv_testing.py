@@ -8,14 +8,10 @@ from matplotlib import pyplot as plt
 
 # Read image
 image = cv2.imread("474.png", cv2.IMREAD_GRAYSCALE)
+image = cv2.medianBlur(image,7) #Always use perito number of mxn
+ret2,image = cv2.threshold(image,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
 
-"""
-cv2.imshow("im", im)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
-"""
 blobStorageArray = []
-
 
 def bigBlobExtractor(image):
     # Blob Detector parameters
@@ -70,15 +66,16 @@ def bigBlobExtractor(image):
             
         crop_img = image[lowerx:upperx, lowery:uppery]
         frameBlobs.append (crop_img)
-        plt.imshow(frameBlobs[j])
-        plt.show()
+        #plt.imshow(frameBlobs[j])
+        #plt.show()
        
     return frameBlobs
 
 blobs = bigBlobExtractor(image)
-vis=blobs[0]
-blobStorageArray.append(blobs[0].tolist())
 
+
+for j in range(len(blobs)):
+    blobStorageArray.append(blobs[j])
 
 def removePadding(image):
     #image=image[:,:,1]      #needed constraint for non binary images
