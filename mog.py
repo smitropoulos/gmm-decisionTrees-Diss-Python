@@ -1,8 +1,8 @@
 import cv2
 
 flag = True;
-
-videoObject = cv2.VideoCapture("TrafficVideo.avi");
+#"TrafficVideo.avi"
+videoObject = cv2.VideoCapture(0);
 
 # define display window name
 
