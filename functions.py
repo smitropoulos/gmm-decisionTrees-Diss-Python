@@ -1,16 +1,8 @@
-
 # Standard imports
 import math
 import cv2
 import numpy as np;
 from matplotlib import pyplot as plt
-
-"""
-# Read image
-image = cv2.imread("474.png", cv2.IMREAD_GRAYSCALE)
-image = cv2.medianBlur(image,7) #Always use perito number of mxn
-ret2,image = cv2.threshold(image,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
-"""
 
 blobStorageArray = []
 
@@ -19,29 +11,29 @@ def bigBlobExtractor(image):
     # Setup SimpleBlobDetector parameters.
     frameBlobs = []
     params = cv2.SimpleBlobDetector_Params()
-    
+
     # Filter by Area.
     params.filterByArea = True
     params.minArea = 300
     params.maxArea = 300000
-    
+
     params.filterByCircularity = True
     params.minCircularity=0
     params.maxCircularity=1
-    
+
     params.filterByColor = True
     params.blobColor = 255
-    
+
     params.filterByConvexity = True
     params.minConvexity=0
-    params.maxConvexity=1   
-    
+    params.maxConvexity=1
+
     # Create a detector with the parameters
-    detector = cv2.SimpleBlobDetector_create(params)   
-    
+    detector = cv2.SimpleBlobDetector_create(params)
+
     # Detect blobs.
-    keypoints = detector.detect(image)    
-    
+    keypoints = detector.detect(image)
+
     for j in range(len(keypoints)):
         print (j)
         size = int(keypoints[1].size /2)
@@ -49,57 +41,59 @@ def bigBlobExtractor(image):
         y = int(keypoints[j].pt[0])
         lowerx = x-size
         upperx = x+size
-        
+
         if lowerx <0:
             lowerx=0
-            
+
         if upperx > len(image[0]):
             upperx = len(image[0])
-                  
+
         lowery = y-size
         uppery = y+size
-        
+
         if lowery <0:
             lowery=0
-            
+
         if uppery > len(image):
             uppery = len(image)
-            
+
         crop_img = image[lowerx:upperx, lowery:uppery]
         frameBlobs.append (crop_img)
         #plt.imshow(frameBlobs[j])
         #plt.show()
-       
+
     return frameBlobs
 
 def removePadding(image):
     if len(image.shape) > 2:
         image=image[:,:,1]      #needed constraint for non binary images
     height, width = image.shape
-    
+
     for i in range(0,height-1):
         if sum(image[i,:])>0:
             top = i
             break
-        
+
     for i in range(height-1,0,-1):
         if sum(image[i,:])>0:
             bottom = i
             break
-    
+
     for i in range(0,width-1):
         if sum(image[:,i])>0:
             left = i
             break
-        
+
     for i in range(width-1,0,-1):
         if sum(image[:,i])>0:
             right = i
-            break    
-    
+            break
+
     return image[top:abs(bottom), left:right ]
 
+
 def rotationAngle (image):
+	#Automatically evaluate the needed angle of rotation
     if len(image.shape) > 2:
         image=image[:,:,1]      #needed constraint for non binary images
     height, width = image.shape
@@ -118,7 +112,7 @@ def rotationAngle (image):
     atan = math.atan(tanofdiff)
     angle=math.degrees(atan)
     return angle
-    
+
 
 
 def rotateImage(image, angle):
@@ -133,7 +127,7 @@ def rotateImage(image, angle):
     rotation_mat = cv2.getRotationMatrix2D(image_center, angle, 1.)
 
     # rotation calculates the cos and sin, taking absolutes of those.
-    abs_cos = abs(rotation_mat[0,0]) 
+    abs_cos = abs(rotation_mat[0,0])
     abs_sin = abs(rotation_mat[0,1])
 
     # find the new width and height bounds

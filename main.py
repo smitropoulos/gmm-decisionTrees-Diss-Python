@@ -1,7 +1,3 @@
-
-
-from multipleImages import multipleImageLoader
-
 # Decision Tree Classification
 
 # Importing the libraries
@@ -9,6 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sn
+from multipleImages import multipleImageLoader
 
 reshapedImagesWithClassInTheEndColumn = multipleImageLoader('human', 'car')
 
@@ -42,7 +39,7 @@ cm = confusion_matrix(y_test, y_pred)
 
 df_cm = pd.DataFrame(cm, index = [i for i in ("Car","Human")],
                   columns = [i for i in ("Car","Human")])
-plt.figure(figsize = (10,7))
+plt.figure(figsize = (5,3))
 sn.heatmap(df_cm, annot=True)
 
 
