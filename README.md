@@ -1,6 +1,6 @@
 # gmm-decisionTrees-Diss-Python
 
-This MATLAB project has been used in my dissertation to base my research on combining the two methods.
+This python project is a python version of my Matlab project which has been used in my dissertation to base my research on combining the two methods.
 
 Note that this is a results oriented project and by no means is optimised.
 
