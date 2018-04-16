@@ -1,8 +1,5 @@
 # gmm-decisionTrees-Diss-Python
 
-
-GMM and Decision Trees for human recognition in complex scenes.
-
 This MATLAB project has been used in my dissertation to base my research on combining the two methods.
 
 Note that this is a results oriented project and by no means is optimised.
