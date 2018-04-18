@@ -1,7 +1,6 @@
 # Decision Tree Classification
-
+#can't be assed to use argv.
 # Importing the libraries
-import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sn

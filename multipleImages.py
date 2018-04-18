@@ -23,8 +23,8 @@ def multipleImageLoader(pathofclass1, pathofclass0):
       image = cv2.medianBlur(image,7) #Always use int n , n%2 ==0
       ret2,image = cv2.threshold(image,0,1,cv2.THRESH_OTSU)
       image = rotateImage(removePadding(image),rotationAngle(image))    #add the preprocessing
-      image = cv2.resize(image,(dim,dim))
-      image = numpy.reshape(image,image.shape[0]*image.shape[1])
+      image = cv2.resize(image,(dim,dim))   #Resizing the image
+      image = numpy.reshape(image,image.shape[0]*image.shape[1])    #reshaping the image from 2d to a vector
       images[n,:-1] = image
       images[n,dim*dim] = 1 #1 is codename for person. Decision trees do not need dummy variables so 1 is enough.
 
@@ -40,6 +40,9 @@ def multipleImageLoader(pathofclass1, pathofclass0):
       image = numpy.reshape(image,image.shape[0]*image.shape[1])
       car[n,:-1] = image
       car[n,dim*dim] = 0 #1 is codename for person. Decision trees do not need dummy variables so 1 is enough.
+
+
+
 
     concat = numpy.concatenate((images, car), axis=0)
     return concat#

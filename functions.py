@@ -1,12 +1,5 @@
-# Standard imports
-import math
-import cv2
-import numpy as np;
-from matplotlib import pyplot as plt
-
-blobStorageArray = []
-
 def bigBlobExtractor(image):
+    import cv2
     # Blob Detector parameters
     # Setup SimpleBlobDetector parameters.
     frameBlobs = []
@@ -93,6 +86,7 @@ def removePadding(image):
 
 
 def rotationAngle (image):
+    import math
 	#Automatically evaluate the needed angle of rotation
     if len(image.shape) > 2:
         image=image[:,:,1]      #needed constraint for non binary images
@@ -116,6 +110,7 @@ def rotationAngle (image):
 
 
 def rotateImage(image, angle):
+    import cv2
     """
     Rotates an image (angle in degrees) and expands image to avoid cropping
     """
