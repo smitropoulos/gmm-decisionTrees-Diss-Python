@@ -102,7 +102,7 @@ def rotationAngle (image):
             break
     y_diff = round(height/2) - topPixel[0]
     x_diff = round(width/2) - topPixel[1]
-    tanofdiff = math.tan(y_diff / x_diff)
+    tanofdiff = math.tan(-y_diff / x_diff)
     atan = math.atan(tanofdiff)
     angle=math.degrees(atan)
     return angle
